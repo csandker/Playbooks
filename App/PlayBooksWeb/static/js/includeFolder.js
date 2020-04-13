@@ -33,5 +33,7 @@ function loadIF(url){
 
 $(document).ready(function(){
     var url = $("#includeFolders").data(url);
-    loadIF(url);
+    if( url ){
+        loadIF(url);
+    }
 });

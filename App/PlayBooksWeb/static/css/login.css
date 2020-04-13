@@ -8,71 +8,71 @@ body{
     background: -o-linear-gradient(to bottom, #1c1d22 50%, #2a2b30) !important;
     background: linear-gradient(to bottom, #1c1d22 50%, #2a2b30) !important;
     color: white;
-}
+  }
   
-div.well{
-  height: 250px;
-} 
+  div.well{
+    height: 250px;
+  } 
   
-.Absolute-Center {
-  margin: auto;
-  position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
-}
+  .Absolute-Center {
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+  }
   
-.Absolute-Center.is-Responsive {
-  width: 50%; 
-  height: 50%;
-  min-width: 200px;
-  max-width: 400px;
-  padding: 40px;
-}
+  .Absolute-Center.is-Responsive {
+    width: 50%; 
+    height: 50%;
+    min-width: 200px;
+    max-width: 400px;
+    padding: 40px;
+  }
   
-#logo-container{
-  margin: auto;
-  margin-bottom: 10px;
-  width:200px;
-  height:30px;
-  background-image: url('');
-}
+  #logo-container{
+    margin: auto;
+    margin-bottom: 10px;
+    width:200px;
+    height:30px;
+    background-image: url('');
+  }
 
   /**
   Bootstrap Additions
   **/
 
-#PlaybookLogin .input-group {
-  background: rgba(255, 255, 255, 0.15);
-  display: flex;
-  display: flex;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  margin-bottom: 20px;
-  padding: 2px 10px 2px 0;
-  border-radius: 35px;
-  -webkit-border-radius: 35px;
-  -moz-border-radius: 35px;
-  -ms-border-radius: 35px;
-  -o-border-radius: 35px;
+.input-group {
+    background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    display: flex;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    margin-bottom: 20px;
+    padding: 2px 10px 2px 0;
+    border-radius: 35px;
+    -webkit-border-radius: 35px;
+    -moz-border-radius: 35px;
+    -ms-border-radius: 35px;
+    -o-border-radius: 35px;
 }
 
-#PlaybookLogin span.input-icon{
-  background: transparent;
-  border: none;
-  flex: 1;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  width: 20%;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  color: #fff;
-  background: transparent;
-  line-height: 49px;
-  text-align: right;
+span.input-icon{
+    background: transparent;
+    border: none;
+    flex: 1;
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    width: 20%;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    color: #fff;
+    background: transparent;
+    line-height: 49px;
+    text-align: right;
 }
 
-#PlaybookLogin .input-group input {
+.input-group input {
     padding: 10px 0 10px 15px;
     font-size: 17px;
     font-weight: 300;
@@ -91,7 +91,7 @@ div.well{
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
-#PlaybookLogin .input-group input {
+.input-group input {
     position: relative;
     -ms-flex: 1 1 0%;
     flex: 1 1 0%;
@@ -99,7 +99,7 @@ div.well{
     margin-bottom: 0;
 }
 
-#PlaybookLogin .submit-btn {
+.submit-btn {
     background: #3a4c5f;
     border: none;
     color: #fff;
@@ -123,10 +123,10 @@ div.well{
     -o-border-radius: 35px;
 }
 
-#PlaybookLogin #logo-container {
+#logo-container {
     margin: 0px 15px 40px 33px;
 }
 
-#PlaybookLogin .error {
+.error {
     color: #e01a1a
 }

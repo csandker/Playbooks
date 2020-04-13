@@ -6,6 +6,8 @@
     <div id="footer"></div>
     <!-- JQuery -->
     <script type="text/javascript" src="{% static 'external/js/jquery.min.js' %}"></script>
-    <!-- includeFolders -->
-    <script type="text/javascript" src="{% static 'js/includeFolder.js' %}"></script>
+    {% if user.is_authenticated %}
+        <!-- includeFolders -->
+        <script type="text/javascript" src="{% static 'js/includeFolder.js' %}"></script>
+    {% endif %}
 {% endblock %}
