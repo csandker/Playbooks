@@ -1,0 +1,37 @@
+{% extends "admin/_base.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/base.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}">
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <h1>Add a new Folder</h1>
+    <p>Contents of added Folders will be shown to application users to include files</p>
+    <form method="POST" novalidate>
+        {% csrf_token %}
+        <fieldset class="module aligned wide">
+            {% for field in form %}
+                <div class="form-row field-name">
+                    {{ field.errors }}
+                    {{ field.label_tag }} {{ field }}
+                    {% if field.help_text %}
+                        <div class="help">{{ field.help_text|safe }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </fieldset>
+        <div class="submit-row">
+            <input type="submit" value="Save" class="default" name="_save">
+            <input type="submit" value="Save and add another" name="_addanother">
+            {% if folder %}
+                <p class="deletelink-box">
+                    <a href="{% url 'includeFolderDelete' folder.id%}" class="deletelink">Delete</a>
+                </p>
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock %}

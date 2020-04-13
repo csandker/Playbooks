@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{playbook.name}}</li>
+{% endblock %}
+
+{% block sidebar-playbooks %} 
+    <div id="pb-nav-{{playbook.id}}" class="pb-nav" >
+        <div class="nav-menu-items">
+            <div class="new-section">
+                <form data-reload-url="{% url 'playbook' playbook.id %}" id="form_new_section" action="{% url 'addSection' playbook.id %}" method="POST">
+                    {% csrf_token %}
+                    {% for field in section_form %}    
+                        {{ field }}
+                        {% if field.help_text %}
+                            <small class="help-text form-text text-muted"> {{ field.help_text }} </small>
+                        {% endif %}
+                    {% endfor %}
+                    <input type="submit" class="btn btn-add" value="Add">
+                </form>
+            </div>
+            {% for section in sections %}
+                <div class="pb-section" data-section={{section.id}}>
+                    <div class="pb-section-header section-item">
+                        <span>{{section.name}}</span>
+                        <button type="button" class="btn btn-delete" data-url="{% url 'deleteSection' section.id %}" data-reload-url="{% url 'playbook' playbook.id %}" data-action="delete">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-add pb-page-add-clk" data-url-editform="{%url 'newPage' section.id %}" data-url-reloadpb="{% url 'playbook' playbook.id %}" data-url-addpage="{% url 'addPage' playbook.id section.id %}" data-action="new" data-pb="{{playbook.id}}" data-section="{{section.id}}">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <ul data-url-update-position="{% url 'updatePagePosition' section.id %}" class="nav-menu section-items sortable">
+                        {% for page in section.pages_sorted %}
+                            <li data-page="{{page.id}}" data-page="{{page.id}}" data-url="{% url 'pageContent' page.id %}" data-url-update-title="{% url 'apiGetPageTitle' page.id %}" class="nav-item pbnav-pb-page clickable pb-page-clk">
+                                <span class="nav-icon icon-draggable">
+                                    <i class="fas fa-bars"></i>
+                                </span>
+                                <span data-attribute="title">{{page.title}}</span>
+                                <button type="button" class="btn btn-dark pb-page-edit-clk" data-url-editform="{%url 'editPage' page.id section.id %}" data-url-reloadpb="{% url 'playbook' playbook.id %}" data-action="edit" data-page="{{page.id}}"" data-pb="{{playbook.id}}" data-section="{{section.id}}">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block main %}
+    <div id="pb-main">
+        <div class="playbook-overview">
+            {% for section in playbook.sections.all %}
+                <ul class="section-item full-width">
+                    <h1 class="heading">{{section.name}}</h1>
+                    {% for page in section.pages_sorted %}
+                        <li class="page-item full-width">
+                            <span class="attribute "><b>Title:</b> {{page.title}}</span>
+                            <span class="attribute"><b>Last modified:</b> {{page.last_modified}}</span>
+                        </li>
+                        <!-- <div data-hook="pbm-page-container" class="pbm-page-container">
+                            <div class="pbm-page-header">
+                                <span data-hook="pbm-page-title" class="pbm-page page-title">{{page.title}}</span>
+                                <span data-hook="pbm-page-last-update" class="last-update">{{page.last_modified}}</span>
+                            </div>
+                        </div> -->
+                    {% endfor %}
+                </ul>
+                <!-- <div data-hook="pbm-sec-container">
+                    <span data-hook="pbm-sec-name" class="pbm-sec-name">{{section.name}}</span>
+                    
+                </div> -->
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

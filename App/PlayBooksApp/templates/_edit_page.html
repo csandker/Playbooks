@@ -1,0 +1,161 @@
+<div class="modal fade" id="pageModal" tabindex="-1" role="dialog" aria-labelledby="pageModalCenterTitle" aria-hidden="true">
+    <div class="edit-modal modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            {% if add_page_form %}
+                <div class="add-existing page-add-module">
+                    <form id="form-add-existing-page" class="full-width" method="POST">
+                        {% csrf_token %}
+                        {% for field in add_page_form %}
+                            <div class="input-group mb-3 modal-body">
+                                
+                                <div class="field-input input-group-fieldset">
+                                    {% if field.label %}
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">{{ field.label }}</span>
+                                        </div>
+                                    {% endif %}
+                                    {{ field }}
+                                </div>
+                                <div class="field-annotations input-group-fieldset">
+                                    {% if field.help_text %}
+                                        <small class="help-text form-text text-muted"> {{ field.help_text }} </small>
+                                        <!-- <div class="help">{{ field.help_text|safe }}</div> -->
+                                    {% endif %}
+                                    {% if field.errors %}
+                                        <div class="error-message invalid-input">
+                                            {{ field.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="modal-footer">
+                            <input type="submit" data-url="{% url 'addExistingPage' section.playbook.id section.id %}" data-url-reloadpb="{% url 'playbook' section.playbook.id %}" data-form="#form-add-existing-page" data-action='add-existing' class="submit-action btn btn-add" value="Add">
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
+            
+            <div class="add-new page-add-module">
+                <div class="page-source">
+                    <h5 class="modal-title modal-header">Select Source</h5>
+                    <div class="sourceblock modal-body">
+                        {% for source_field in form.source_options %}
+                            <p class="clickable btn-page-source pb-page-picksource-clk" data-selected="{% if form.source_type.value == source_field.source_type %}True{% else %}{% endif %}" data-form="#page-form" data-source-field="#{{ source_field.source_field }}" data-source-type="{{source_field.source_type}}" data-target-fields="{% for field_id in source_field.allowed_fields %}{{field_id}},{% endfor %}" data-button-selector=".btn-page-source">{{ source_field.name }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="modal-form full-width">
+                    <div class="modal-header">
+                        {% if page %}
+                            <h5 class="modal-title" id="pageModalCenterTitle">Edit Page</h5>
+                        {% else %}
+                            <h5 class="modal-title" id="pageModalCenterTitle">Add Page</h5>
+                        {% endif %}
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form class="full-width" id="page-form" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="modal-body full-width">
+                            <input type="hidden" name="page_id" value="{% if page %}{{page.id}}{% endif %}">
+                            <input type="hidden" name="section_id" value="{{section.id}}">
+                            {% for field in form %}
+                                <div class="input-group mb-3">
+                                    <div class="field-input input-group-fieldset">
+                                        {% if field.label %}
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">{{ field.label }}</span>
+                                            </div>
+                                        {% endif %}
+                                        {{ field }}
+                                    </div>
+                                    <div class="field-annotations input-group-fieldset">
+                                        {% if field.help_text %}
+                                            <small class="help-text form-text text-muted"> {{ field.help_text }} </small>
+                                            <!-- <div class="help">{{ field.help_text|safe }}</div> -->
+                                        {% endif %}
+                                        {% if field.errors %}
+                                            <div class="error-message invalid-input">
+                                                {{ field.errors }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <div class="input-group mb-3" style="max-width: 700px;overflow: scroll;max-height: 400px;" >
+                                {% if form.text_source.errors %}
+                                    <div class="error-message invalid-input">
+                                        {{ form.text_source.errors }}
+                                    </div>
+                                {% endif %}
+                                <div class="contenteditable" placeholder="Start typing..." id="page_update_modal_editablediv" data-container="#page-form" data-hook="pageContentEdit" data-event="pageContentEdit" data-target="{{form.text_source.auto_id}}" contenteditable="true">
+                                    {% if form.text_source.value %}
+                                        {{ form.text_source.value|safe|linebreaks }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="hint warning">
+                                {% if page %}
+                                    <small>Updating the Page will fetch the Source anew and overwrite any changes made using the text editor</small>
+                                {% endif %}
+                            </div>
+                            <!-- <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Title</span>
+                                </div>
+                                <input type="text" class="form-control" name="page-title" value="{% if page %}{{page.title}}{% endif %}" aria-describedby="basic-addon3">
+                            </div> -->
+                            <!-- <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">HTTP Source</span>
+                                </div>
+                                <input type="text" placeholder="https://www.example.com/Test.md" data-event="urlPrefetch" data-url-prefetch="{% url 'apiPrefetchSource' %}" class="form-control" value="{% if page %}{{page.source}}{% endif %}" name="page-http-source" aria-describedby="basic-addon3">
+                            </div> -->
+                            <!-- <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">File Source</span>
+                                </div>
+                                <input type="file" class="form-control"  name="page-file-source" aria-describedby="basic-addon3">
+                            </div> -->
+    
+                            
+                            <!-- <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Offline Copy</span>
+                                    <div class="input-group-text">
+                                        <input type="checkbox" name="page-offlinecopy" {% if page.offline_copy %}checked="true"{% endif %} data-toggle="switch" value="true" aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!-- <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Check For Updates</span>
+                                    <div class="input-group-text">
+                                        <input type="checkbox" data-toggle="switch" value="true" name="page-checkupdates" {% if page.check_updates %}checked="true"{% endif %} aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                            </div> -->
+                        
+                        </div>
+                        <div class="modal-footer full-width">
+                            {% if page %}
+                                <input type="button" data-page="{{page.id}}" data-form="#page-form" data-action='delete' data-url="{% url 'deletePage' section.id page.id %}" data-url-reloadpb="{% url 'playbook' section.playbook.id %}" class="submit-action btn btn-delete mr-auto" value="Delete Page">
+                            {% endif %}
+                            <span data-hook="prefetch-animation" class="prefetch-animation hidden">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </span>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            {% if page %}
+                                <input type="submit" data-page="{{page.id}}" data-form="#page-form" data-action='edit' data-url="{% url 'updatePage' page.id section.id %}" data-url-reloadpb="{% url 'playbook' section.playbook.id %}" class="submit-action btn btn-add" value="Update Page">
+                            {% else %}
+                                <input type="submit" data-page="{{page.id}}" data-url="{% url 'addPage' section.playbook.id section.id %}" data-url-reloadpb="{% url 'playbook' section.playbook.id %}" data-form="#page-form" data-action='new' class="submit-action btn btn-add" value="Add Page">
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

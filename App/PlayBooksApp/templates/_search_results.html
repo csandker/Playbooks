@@ -1,0 +1,5 @@
+{% for page in pages %}
+    {% for playbook in page.playbooks %}
+        <a href="#{{playbook.id}}#{{page.id}}" class="form_search_result dropdown-item">{{ page.title }}</a>
+    {% endfor %}
+{% endfor %}

@@ -1,0 +1,11 @@
+{% extends "admin/base.html" %}
+
+{% load i18n static %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('PlayBooks admin') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">PlayBooks Administration</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

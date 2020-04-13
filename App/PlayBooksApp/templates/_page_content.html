@@ -1,0 +1,121 @@
+<div id="page-main">
+    <div id="page-content">
+        <div id="page-content-edit">
+            <form id="page-content-form" method="POST" enctype="multipart/form-data">
+                <div id="pb-controls">
+                    <div class="page-update-controls" id="page-update">
+                        <div class="page-update-status">
+                            {% if page.check_updates %}
+                                <div data-url="{% url 'apiPageUpateStatus' page.id %}" data-hook="update-status" class="page-update-status update-status">
+                                    <span class="label">Update Status:</span>
+                                    <span class="update-status notifications">
+                                        <span class="status-update hidden">Source Changed</span>
+                                        <span class="status-notmodified hidden">In Sync</span>
+                                        <span class="status-error warning hidden">Could not be determined</span>
+                                    </span>
+                                    <button type="button" data-page="{{ page.id }}" data-url="{% url 'apiUpdatePage' page.id %}" data-event="UpdatePageBtn" class="status-update btn btn-sm btn-add hidden">Update</button>
+                                    <button type="button" data-page="{{ page.id }}" data-url="{% url 'apiPrefetchUpdatePage' page.id %}" data-event="PrefetchUpdatePageBtn" class="status-update btn btn-sm btn-secondary hidden">Prefetch Updated Version</button>
+                                    <button type="button" class="btn btn-sm btn-secondary hidden" data-event="ClosePrefetchUpdatePageBtn">Close Prefetch Window</button>
+                                </div>
+                            {% else %}
+                                {% if page.can_be_updated %}
+                                    <span class="label">Update Status:</span>
+                                    <span class="update-status notifications">
+                                        <span class="status-unable">Update Check has been disabled</span>
+                                    </span>
+                                {% else %}
+                                    <span class="label">Update Status:</span>
+                                    <span class="update-status notifications">
+                                        <span class="status-unable">Source type <i>{{page.source_type}}</i> can not be updated</span>
+                                    </span>
+                                {% endif %}
+                            {% endif %}
+                        </div> 
+                    </div>
+                    <div class="page-edit-controls" id="page-edit">
+                        <button type="button" data-hook="pageContentEdit" data-event="pageContentShow" class="btn btn-dark btn-edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button data-hook="pageContentEdit" data-action="pageContentUpdate" data-target="#page-content-form" data-url="{% url 'pageContent' page.id %}" data-page="{{ page.id }}" type="button" class="hidden btn btn-primary" value="Update Page">Update</button>
+                        <button type="button" data-hook="pageContentEdit" data-event="pageContentHide" class="hidden btn btn-dark">
+                            <i class="far fa-window-close"></i>
+                        </button>
+                        <span data-hook="prefetch-animation" class="prefetch-animation hidden">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="page-content content-control-fields">
+                    <div class="hidden" data-hook="pageContentEdit">
+                        <div class="input-group">
+                            <div class="field-input input-group-fieldset">
+                                {% if form.title.label %}
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">{{ form.title.label }}</span>
+                                    </div>
+                                {% endif %}
+                                {{ form.title }}
+                            </div>
+                            <div class="field-annotations input-group-fieldset">
+                                {% if form.title.errors %}
+                                    <div class="error-message invalid-input">
+                                        {{ form.title.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <div class="field-input input-group-fieldset">
+                                {% if form.check_updates.label %}
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">{{ form.check_updates.label }}</span>
+                                    </div>
+                                {% endif %}
+                                {{ form.check_updates }}
+                            </div>
+                            <div class="field-annotations input-group-fieldset">
+                                {% if form.check_updates.errors %}
+                                    <div class="error-message invalid-input">
+                                        {{ form.check_updates.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- <div class="input-group"> -->
+                            <!-- {% if form.check_updates.label %}
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">{{ form.check_updates.label }}</span>
+                            </div>
+                            {% endif %} -->
+                            <!-- <label class="checkbox-inline">
+                                {{ form.check_updates }} <span class="input-group-text">{% if form.check_updates.label %}{{ form.check_updates.label }}{% endif %}</span>
+                            </label> -->
+
+                            <!-- {{ form.check_updates }} -->
+                        <!-- </div> -->
+                        <div class="field hidden">
+                            {{ form.source_type }}
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="page_id" value="{{ page.id }}">
+                
+                {% csrf_token %}
+                {{ form.text_source }}
+            </form>
+            <div class="hidden contenteditable" data-hook="pageContentEdit" data-event="pageContentEdit" data-target="{{form.text_source.auto_id}}" data-container="#pb-controls" contenteditable="true">
+                {% if form.text_source.value %}
+                    {{ form.text_source.value|safe|linebreaks }}
+                {% endif %}
+            </div>
+        </div>
+        
+        <div data-hook="pageContentEdit" >
+            {% if html_page %}
+                {{ html_page | safe }}
+            {%  endif %}
+        </div>
+    </div>
+</div>

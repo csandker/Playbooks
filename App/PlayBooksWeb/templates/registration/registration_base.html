@@ -1,0 +1,38 @@
+{% load i18n static %}<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html>
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static 'css/style.css' %}{% endblock %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+        
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" type="text/css" href="{% static 'external/css/bootstrap.min.css' %}">
+
+        {% block extrastyle %}{% endblock %}
+        {% block extrahead %}{% endblock %}
+        {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE">{% endblock %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
+    </head>
+    <body>
+        
+        <!---->
+
+        <div id="Login">
+            <div class="container-fluid">
+                <div id="main-container overflow" class="container main-container">
+                    {% block main %}{% endblock %}
+                </div>
+            </div>
+        </div>
+
+        <!-- SCRIPTS -->
+        <!-- JQuery -->
+        <script type="text/javascript" src="{% static 'external/js/jquery.min.js' %}"></script>
+        
+    </body>
+</html>

@@ -1,0 +1,117 @@
+{% load i18n static %}<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html>
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static 'css/style.css' %}{% endblock %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/md.css' %}">
+        <!-- Jquery-Confirm CSS -->
+        <link rel="stylesheet" type="text/css" href="{% static 'external/css/jquery-confirm.min.css' %}">
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" type="text/css" href="{% static 'external/css/bootstrap.min.css' %}">
+        <!-- Bootstrap-Select CSS -->
+        <link rel="stylesheet" type="text/css" href="{% static 'external/css/bootstrap-select.min.css' %}">
+        <!-- Bootstrap-Toggle CSS -->
+        <link rel="stylesheet" type="text/css" href="{% static 'external/css/bootstrap-toggle.min.css' %}">
+        <!-- Fontawesome CSS -->
+        <link rel="stylesheet" type="text/css" href="{% static 'external/css/fontawesome_all.min.css' %}">
+        
+        <!-- Material Design Bootstrap -->
+        <!--
+        <link rel="stylesheet" type="text/css" href="{% static 'external/mdb/css/mdb.min.css' %}"> 
+        -->
+        <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"> -->
+        
+        {% block extrastyle %}{% endblock %}
+        {% block extrahead %}{% endblock %}
+        {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE">{% endblock %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
+    </head>
+    <body>
+        <!---->
+        {% if user.is_authenticated %}
+            <div id="PlayBooks">
+                <div id="side-content">
+                    <div id="header">
+                        <div id="header-logo" class="left-navbar">
+                            <div id="logo">
+                                <img src="/static/img/Logo.svg"/>
+                            </div>
+                            <div id="user">
+                                <span class="user username">{{ user.username }}</span>
+                                <a class="user logout" href="{% url 'logout' %}">Log Out</a>
+                            </div>
+                        </div>
+    
+                        
+                    </div>
+    
+                    <div id="sidenav"  class="left-navbar">
+                        <div class="nav-menu overflow-visible">
+                            {% block sidebar-playbooks %} {% endblock %}
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div id="main-content">
+                    <div id="breadcrumb-nav" class="container">
+                        <nav aria-label="breadcrumb">
+                            <div class="breadcrumb-container">
+                                <ol class="breadcrumb mr-auto">
+                                    {% block breadcrumb %}{% endblock %}
+                                </ol>
+                                <div class="search-form-container">
+                                    <form id="form_search" method="POST">
+                                        {% csrf_token %}
+                                        <input id="form_search_input" data-url="{% url 'apiSearchPlaybooks' %}" data-form="#form_search" data-update-target="#form_search_results" class="form-control dropdown-toggle" name="search" data-toggle="dropdown" type="search" placeholder="Search..." aria-label="Search" autocomplete="off">
+                                        <div class="search-form-dropdown dropdown-menu" id="form_search_results"></div>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            
+                        </nav>
+                        
+                    </div>
+                    <div class="container-fluid">
+                        <div id="main-container" class="container main-container overflow">
+                            {% block main %}{% endblock %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="prefetch-container" class="hidden">
+                    <button type="button" class="close-container close-prefetch-container close" data-target="#prefetch-container" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <div id="pb-prefetch"></div>
+                </div>
+            </div>
+            <div id="edit-page-modal" class="modal-container" data-hook="modal-container"></div>
+        {% endif %} 
+        <!-- SCRIPTS -->
+        <!-- JQuery -->
+        <script type="text/javascript" src="{% static 'external/js/jquery.min.js' %}"></script>
+        <!-- JQueryUI -->
+        <script type="text/javascript" src="{% static 'external/js/jquery-ui.min.js' %}"></script>
+        <!-- JQuery-Confirm -->
+        <script type="text/javascript" src="{% static 'external/js/jquery-confirm.min.js' %}"></script>
+        <!-- Bootstrap tooltips -->
+        <!-- <script type="text/javascript" src="{% static 'external/js/popper.min.js' %}"></script> -->
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="{% static 'external/js/bootstrap.min.js' %}"></script>
+        <!-- Bootstrap-Select JavaScript -->
+        <script type="text/javascript" src="{% static 'external/js/bootstrap-select.min.js' %}"></script>
+        <!-- Bootstrap-Toggle JavaScript -->
+        <script type="text/javascript" src="{% static 'external/js/bootstrap-toggle.min.js' %}"></script>
+        <!-- MDB core JavaScript 
+        <script type="text/javascript" src="{% static 'external/mdb/js/mdb.min.js' %}"></script>
+        -->
+        <!-- Custom -->
+        <script type="text/javascript" src="{% static 'js/navigation.js' %}"></script>
+    </body>
+</html>

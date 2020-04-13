@@ -1,0 +1,7 @@
+{% for v in optgroups %}
+    <optgroup label="{{ v.0 }}">
+        {% for v2 in v.1 %}
+            <option value="{{ v2.0 }}">{{ v2.1 }}</option>
+        {% endfor %}
+    </optgroup>
+{% endfor %}

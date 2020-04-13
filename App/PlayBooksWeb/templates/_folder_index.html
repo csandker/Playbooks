@@ -1,0 +1,21 @@
+
+<div id="content-allowedfolders" class="module">
+    <table>
+        <caption>
+            <span>Allowed Folders</span>
+            <a href="{% url 'includeFolderAdd' %}" class="addlink">Add</a>
+        </caption>
+        {% for folder in folders %}
+            <tr>
+                <th scope="row">
+                    <span>{{folder.name}}</span>
+                    <small>{{folder.path}}</span>
+                </th>
+                <td>
+                    <a href="{% url 'includeFolderChange' folder.id %}" class="changelink">Change</a>
+                </td>
+            </tr>
+        {% endfor%}
+    </table>
+</div>
+
