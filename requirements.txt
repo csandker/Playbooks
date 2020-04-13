@@ -1,3 +1,4 @@
 Django
 markdown2
 Pygments>=2.3.1
+requests
