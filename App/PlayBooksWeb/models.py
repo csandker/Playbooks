@@ -49,13 +49,7 @@ class IncludedFolder(models.Model):
     
     @classmethod
     def dict_to_option_tuple(self, global_dict):
-        #arrdict = { 'FolderA': [{"1": "FileA"}, {"2": "FileB"}], 'FolderB': [{'3': 'FileC'}] }
         dir_options = ()
-        #folder_optionA = ('FolderA', (('1', 'FileA'), ('2', 'FileB')))
-        #folder_optionB = ('FolderB', (('3', 'FileC'),))
-        #dir_options += ( folder_optionA, )
-        #dir_options += ( folder_optionB, )
-        #dir_options += ( folder_optionB, )
         for folder_name in global_dict:
             folder_option = (folder_name,)
             fileoptions = ()

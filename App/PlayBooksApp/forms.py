@@ -41,7 +41,7 @@ class PlaypageForm(ModelForm):
         if( self.INIT_SOURCE_TYPE ):
             self.instance.source_type = self.INIT_SOURCE_TYPE
             self['source_type'].initial = self.INIT_SOURCE_TYPE
-        #self.form_source_type = source_type
+
         ## HTTP UPLOAD FIELD
         http_initial = self.instance.source if ( self.instance and self.instance.source_type == Playpage.SOURCE_HTTP ) else '' 
         http_source = forms.CharField(required=False, label="HTTP Resource", initial=http_initial )
@@ -78,7 +78,6 @@ class PlaypageForm(ModelForm):
             included_folder_path_initial = self.instance.source
         else:
             included_folder_path_choices = ChoiceFieldNoValidation.DEFAULT_CHOICE
-            #included_folder_path_choices = [('', '-- Choose --')]
             included_folder_path_initial = ''
         included_folder_path = ChoiceFieldNoValidation(required=False, label='File', initial=included_folder_path_initial)
         included_folder_path.help_text = _("Chose a File From Disk As Source")
@@ -91,7 +90,6 @@ class PlaypageForm(ModelForm):
         self.fields['included_folder_path'] = included_folder_path
         ### DISK Folders
         disk_folder_choices = [('', '-- Choose --')] + [ (folder.id, folder.name) for folder in IncludedFolder.objects.all() ] # 
-        #[ ('DirA', ( ('0', 'FileA'), ('1', 'FileB')))  ]
         included_folder_initial = self.instance.included_folder.id if ( self.instance.source_type == Playpage.SOURCE_DISK and self.instance and self.instance.included_folder ) else ''
         included_folder = forms.ChoiceField(required=False, label='Folder', initial=included_folder_initial)
         included_folder.choices = disk_folder_choices
@@ -118,9 +116,6 @@ class PlaypageForm(ModelForm):
         ## FIELD Order
         self.field_order = ['title', 'source_type', 'http_source', 'file_source', 'included_folder', 'included_folder_path', 'text_source', 'check_updates']
         self.order_fields(self.field_order)
-        
-        #self.order_fields(self.field_order)
-
 
         self.source_options =  [
             {'name': 'HTTP', 'source_type': self.instance.SOURCE_HTTP, 'source_field': self['source_type'].auto_id,
@@ -186,7 +181,7 @@ class PlaypageForm(ModelForm):
         return True
 
     def validate_http_source(self):
-        url = self['http_source'].data #.cleaned_data.get('http_source', '')
+        url = self['http_source'].data
         ## Check if existing
         if( not url ):
             if( hasattr(self._errors, 'get') and not self._errors.get('http_source') ):
@@ -199,7 +194,7 @@ class PlaypageForm(ModelForm):
             try:
                 urlvalidator(url)
             except ValidationError as e:
-                if( hasattr(self._errors, 'get') and not self._errors.get('http_source') ): #hasattr(self, '_errors') and self._errors and not self._errors.get('http_source')
+                if( hasattr(self._errors, 'get') and not self._errors.get('http_source') ):
                     emsg = "Invalid URL scheme. Only http:// https:// is allowed"
                     self.add_error('http_source', emsg)
                 return False
@@ -212,7 +207,6 @@ class PlaypageForm(ModelForm):
                     if( hasattr(self._errors, 'get') and not self._errors.get('http_source') ):
                         status_code = requester.get_status_code()
                         emsg = "Received Invalid Server Response. Status Code was: '%s'" %(status_code)
-                        #self._errors['http_source'] = emsg
                         self.add_error('http_source', emsg)
                     return False
         return True
@@ -277,16 +271,15 @@ class PlaypageForm(ModelForm):
         return True
 
     def is_valid(self):
-        #custom_valid = True
         ### Custom Validations
         valid_super = super(ModelForm, self).is_valid()
-        source_type = self['source_type'].data #self.cleaned_data['source_type']
+        source_type = self['source_type'].data
         valid_source = self.validate_source_type(source_type)
 
         return (valid_super and valid_source)
 
     def validate_source_type(self, source_type):
-        if( source_type == Playpage.SOURCE_UPLOAD): #not self.errors.get('file_source', False) ) and 
+        if( source_type == Playpage.SOURCE_UPLOAD):
             return self.validate_file_source()
         elif( source_type == Playpage.SOURCE_HTTP ):
             return self.validate_http_source()
@@ -327,10 +320,6 @@ class PlaypageForm(ModelForm):
                 url = self.cleaned_data.get('http_source', '')
                 resolver = SourceResolver(self.instance)
                 response = resolver.resolve_from_http(url)
-                # requester = URLRequester(url)
-                # requester.request()
-                # requester.resolve_images()
-                # response = requester.get_response()
                 self.instance.source = self.cleaned_data['http_source']
                 if( response ):
                     self.instance.offline_store = response
@@ -360,11 +349,6 @@ class PlaypageForm(ModelForm):
                     content = resolver.resolve_from_disk(selected_included_folder, selected_included_folder_path)
                     if( content ):
                         self.instance.offline_store = content
-                    # md_parser = MarkdownParser()
-                    # content = IncludedFolder.get_file_content(selected_included_folder, selected_included_folder_path)
-                    # content = md_parser.replaceImages(content, IncludedFolder.path_validation, IncludedFolder.path_processing, folderID=selected_included_folder, subpath=selected_included_folder_path)
-                    # self.instance.offline_store = content
-                    #self.instance.offline_store = IncludedFolder.get_file_content(selected_included_folder, selected_included_folder_path)
 
         elif( source_type == Playpage.SOURCE_TEXT ):
             valid_text_source = self.validate_text_source()
@@ -404,7 +388,6 @@ class PlaybookSectionForm(ModelForm):
             self.instance.creator = user
 
 class PlaybookAddPageForm(forms.Form):
-    #CHOICES = [ (page.id, page.title) for page in Playpage.objects.all() ]
     page = forms.ChoiceField(
         label = "Add Existing Page",
         help_text = "Add existing Page",

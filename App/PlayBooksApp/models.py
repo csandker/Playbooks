@@ -118,7 +118,6 @@ class PlaybookSection(models.Model):
             ## if error, pass and go with 0
             pass
         return position
-        #return self.section_contents.order_by('page_position').last().page_position
     
     def append_page(self, page):
         position = self.last_page_position() or 0

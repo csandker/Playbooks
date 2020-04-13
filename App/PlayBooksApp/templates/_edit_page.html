@@ -19,7 +19,6 @@
                                 <div class="field-annotations input-group-fieldset">
                                     {% if field.help_text %}
                                         <small class="help-text form-text text-muted"> {{ field.help_text }} </small>
-                                        <!-- <div class="help">{{ field.help_text|safe }}</div> -->
                                     {% endif %}
                                     {% if field.errors %}
                                         <div class="error-message invalid-input">
@@ -74,7 +73,6 @@
                                     <div class="field-annotations input-group-fieldset">
                                         {% if field.help_text %}
                                             <small class="help-text form-text text-muted"> {{ field.help_text }} </small>
-                                            <!-- <div class="help">{{ field.help_text|safe }}</div> -->
                                         {% endif %}
                                         {% if field.errors %}
                                             <div class="error-message invalid-input">
@@ -101,43 +99,6 @@
                                     <small>Updating the Page will fetch the Source anew and overwrite any changes made using the text editor</small>
                                 {% endif %}
                             </div>
-                            <!-- <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Title</span>
-                                </div>
-                                <input type="text" class="form-control" name="page-title" value="{% if page %}{{page.title}}{% endif %}" aria-describedby="basic-addon3">
-                            </div> -->
-                            <!-- <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">HTTP Source</span>
-                                </div>
-                                <input type="text" placeholder="https://www.example.com/Test.md" data-event="urlPrefetch" data-url-prefetch="{% url 'apiPrefetchSource' %}" class="form-control" value="{% if page %}{{page.source}}{% endif %}" name="page-http-source" aria-describedby="basic-addon3">
-                            </div> -->
-                            <!-- <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">File Source</span>
-                                </div>
-                                <input type="file" class="form-control"  name="page-file-source" aria-describedby="basic-addon3">
-                            </div> -->
-    
-                            
-                            <!-- <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Offline Copy</span>
-                                    <div class="input-group-text">
-                                        <input type="checkbox" name="page-offlinecopy" {% if page.offline_copy %}checked="true"{% endif %} data-toggle="switch" value="true" aria-label="Checkbox for following text input">
-                                    </div>
-                                </div>
-                            </div> -->
-                            <!-- <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Check For Updates</span>
-                                    <div class="input-group-text">
-                                        <input type="checkbox" data-toggle="switch" value="true" name="page-checkupdates" {% if page.check_updates %}checked="true"{% endif %} aria-label="Checkbox for following text input">
-                                    </div>
-                                </div>
-                            </div> -->
-                        
                         </div>
                         <div class="modal-footer full-width">
                             {% if page %}

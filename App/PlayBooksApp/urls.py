@@ -17,7 +17,6 @@ urlpatterns = [
     path('pb/page/<int:sectionID>/new', views.newPage, name="newPage"),
     path('pb/page/<int:pageID>/edit/<int:sectionID>', views.editPage, name="editPage"),
     path('pb/page/<int:pageID>/update/<int:sectionID>', views.updatePage, name="updatePage"),
-    # path('api/pb/<int:pbID>', views.apiGetPBData, name="apiGetPBData"),
     path('api/pb/prefetch', views.apiPrefetchSource, name="apiPrefetchSource"),
     path('api/pb/serverFiles', views.apiServerFileOptions, name="apiServerFileOptions"),
     path('api/pb/updateStatus/<int:pageID>', views.apiPageUpateStatus, name="apiPageUpateStatus"),

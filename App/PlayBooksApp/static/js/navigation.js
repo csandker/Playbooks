@@ -1,31 +1,6 @@
-/** 
-function ident_url_placeholder(){
-    return "REF";
-}
-*/
 function ident_main_container(){
     return "#PlayBooks";
 };
-/** 
-function ident_pb_nav_byID(id){
-    return $("#pb-nav-"+id);
-}
-*/
-/** 
-function ident_hook_pbnav_pbpage(pageID){
-    return $(".pbnav-pb-page[data-page="+pageID+"]");
-}
-*/
-/** 
-function ident_pb_nav_overview(){
-    return $("#nav-overview-pbs");
-}
-*/
-/** 
-function ident_pb_main_overview(){
-    return $("#pb-overview");
-}
-*/
 function ident_pb_main(){
     return $("#pb-main");
 }
@@ -67,76 +42,7 @@ function ident_pb_clk_selector(pbID){
 function ident_prefetch_animation_container(){
     return '[data-hook=prefetch-animation]';
 }
-/** 
-function ident_pbm_sec_container(){
-    return $( ident_pb_main() ).find("[data-hook='pbm-sec-container']")
-}
-*/
-/** 
-function ident_pbm_loading(){
-    return $("#pbm-loading");
-}
-*/
-/** 
-function iden_pbnav_section(sectionID){
-    return $(".pb-section[data-section="+sectionID+"]")
-}
-*/
-/** 
-function ident_pbm_page_container(){
-    return "[data-hook='pbm-page-container']";
-}
-*/
-/** 
-function ident_hook_sec_name(){
-    return "[data-hook='pbm-sec-name']";
-}
-*/
-/** 
-function ident_hook_page_title(){
-    return "[data-hook='pbm-page-title']";
-}
-*/
-/** 
-function ident_hook_page_lu(){
-    return "[data-hook='pbm-page-last-update']";
-}
-*/
-/*
-function ident_form_add_page(){
-    return "form#form-add-page";
-}
-*/
-/*
-function ident_hook_pbnav_pbpage(){
-    return "[data-hook=pbnav-pb-page]"
-}
-*/
-/*
-function ident_form_addpage_title(){
-    return "[name='page-title']"
-}
-*/
-/** 
-function url_get_pb(pbID){
-    return 'api/pb/'+pbID;
-}
-*/
-/** 
-function url_get_page(pbID, pageID){
-    return 'api/pb/'+pbID+'/page/'+pageID;
-}
-*/
-/** 
-function url_add_page(pbID, sectionID){
-    return "pb/"+pbID+"/section/"+sectionID+"/new";
-}
-*/
-/** 
-function url_get_pb(pbID){
-    return 'pb/'+pbID
-}
-*/
+
 
 function refresh_sortable(updateCallback){
     $('.sortable').sortable({
@@ -187,43 +93,7 @@ function xhr_data(url, options, callbackSucc, callbackFail, callbackAlways){
             callbackAlways(dataOrJQXhr, textStatus, jqxhr);
         }
     });
-    /** 
-    $.ajax({
-        url: url,
-        success: function(data, textStatus, jqXHR) {
-            callbackSucc(data);
-            },
-        error: function(jqXHR, textStatus, errorThrown){
-            callbackFail(jqXHR, textStatus, errorThrown);
-        }
-    });
-    */
 }
-
-/** 
-function append_pb_data(data){
-    var secDOM = ident_pbm_sec_container();
-    for(secID in data.sections){
-        var secObj = data.sections[secID];
-        var secEl = secDOM.clone();
-        secEl.attr('data-section', secID);
-        // set section content
-        $(secEl).find( ident_hook_sec_name() ).text(secObj.name);
-        var pageCon = $(secEl).find( ident_pbm_page_container() );
-        for(pageID in secObj.pages){
-            var pageObj = secObj.pages[pageID];
-            var pageEl = pageCon.clone();
-            $(pageEl).attr('data-page', pageID);
-            $(pageEl).find( ident_hook_page_title() ).text(pageObj.title);
-            $(pageEl).find( ident_hook_page_lu() ).text(pageObj.last_modified);
-            $(secEl).append(pageEl);
-        }
-        $(ident_pb_main()).append(secEl);
-        $(pageCon).remove();
-        $(secDOM).remove();
-    }
-}
-*/
 
 function place_page(el, html_content){
     $(el).children().off();
@@ -240,20 +110,6 @@ function handle_fail_pb_data(jqXHR, textStatus, errorThrown){
 function handle_fail_page_data(jqXHR, textStatus, errorThrown){
     handle_fail_pb_data(jqXHR, textStatus, errorThrown);
 }
-
-/** 
-function async_pb_display(pbID, fincallback){
-    // TODO display loading screen
-    url = url_get_pb(pbID);
-    xhr_data(url, function(data){
-        append_pb_data(data);
-    }, function(jqXHR, textStatus, errorThrown){
-        handle_fail_pb_data(jqXHR, textStatus, errorThrown);
-    });
-    // finish callback
-    fincallback();
-}
-*/
 
 function update_page_positions(event, ui){
     var eventContainer = $(event.target);
@@ -322,19 +178,6 @@ function playbook_clk(el){
     if( pbID ){
         set_playbook_nav_anchor(pbID);
     }
-    /** 
-    var pbID= $(el).data('pb');
-    var pbnav= ident_pb_nav_byID(pbID);
-    // toggle views
-    $(ident_pb_nav_overview()).slideToggle('slow');
-    $(ident_pb_main_overview()).slideToggle('slow');
-    $(pbnav).slideToggle('slow');
-    $(ident_pb_main()).slideToggle('slow');
-    // load pb pages
-    async_pb_display(pbID, function(){
-        $( ident_pbm_loading() ).hide();
-    });
-    */
 }
 
 function playbook_page_place(data, pageID){
@@ -402,33 +245,18 @@ function page_modal_submit_action(url, options, button, reloadUrl){
         load_playbook( reloadUrl );
     }, function(jqXHR, textStatus, errorThrown){
         // Fail Callback
-        //playpage_modal_add(jqXHR.responseText);//, pbID, urlNewPage, urlReloadPB);
         playpage_modal_update(jqXHR.responseText);
-        // console.log(jqXHR, textStatus, errorThrown)
-        // console.log(jqXHR.responseText);
-        // foo = jqXHR;
-        // target = $( ident_modal_edit_page() );
-        // newModalEl = $('<div></div>').append(jqXHR.responseText);
-        // newModalEl = $(newModalEl).find('.modal');
-        // place_page(target, newModalEl);
-        // $(target).children('.modal').modal('show')
     }, function(dataOrJQXhr, textStatus, jqxhr){
         // Always Callback
-        //$(button).closest('.modal').modal('hide');
     });
 }
 
-function playbook_page_modal_submit(event, button){//, pbID, urlNewPage, urlReloadPB){
-    //var action = $(button).data('action');
+function playbook_page_modal_submit(event, button){
     var targetUrl = $(button).data('url');
     var reloadUrl = $(button).data('url-reloadpb');
     var action = $(button).data('action');
-    // var url = '';
-    // if( action == 'new' ) url = urlNewPage;
-    // else url = $(button).data('url');
     
     var form = $(button).data('form');
-    //var pageID = $(button).data('page');
     
     // Send POST request
     var data = form_collect_data(form)
@@ -463,29 +291,6 @@ function playbook_page_modal_submit(event, button){//, pbID, urlNewPage, urlRelo
         page_modal_submit_action(targetUrl, options, button, reloadUrl);
     }
     
-    /**
-    done(function(data, textStatus, jqxhr){
-        callbackSucc(data, textStatus, jqxhr);
-    }).fail(function(jqXHR, textStatus, errorThrown){
-        callbackFail(jqXHR, textStatus, errorThrown);
-    }).always(function(dataOrJQXhr, textStatus, jqxhr){
-        
-    });
-    */
-
-    
-    /** 
-    var jqxhr = $.post(url, $(form).serialize(), function(data, textStatus, jqxhr){
-        // TODO add success banner
-    }).fail(function(jqXHR, textStatus, errorThrown){
-        handle_fail_page_data(jqXHR, textStatus, errorThrown);
-    }).always(function(){
-        // close modal
-        $(button).closest('.modal').modal('hide');
-        // replace DOM
-        load_playbook( urlReloadPB );
-    });
-    */
     return false
 }
 
@@ -509,47 +314,21 @@ function playpage_modal_update(respdata){
 
 function playpage_modal_add(respdata){//, pbID, urlNewPage, urlReloadPB){
     var target = $( ident_modal_edit_page() );
-    // remove any preexisting events
-    //$(target).off()
-    // add new content
     var newModalEl = $('<div></div>').append(respdata);
     var newModalEl = $(newModalEl).find('.modal');
     
     place_page(target, newModalEl);
     playpage_modal_select_source();
-    // // prevent submit
-    // $(newModalEl).on('click', '[type=submit]', function(event){
-    //     event.preventDefault();
-    //     playbook_page_modal_submit(event, this, pbID, urlNewPage, urlReloadPB);
-    //     return false;
-    // });
     
     // refresh select picker
     $('.selectpicker').selectpicker('refresh');
     // enable update toggle
     refresh_update_toggles();
-    // Remove all modal backdrops but one
-    //$('.modal-backdrop').remove()
     // show modal
     $(target).children('.modal').modal('show');
 };
 
 function playbook_page_action_clk(el, pbID, urlEditForm, urlNewPage, urlReloadPB){
-    //var target = $( ident_modal_edit_page() );
-    /**
-     var action = $(el).data('action');
-    var url = $(target).data('url');
-    var urlPlaceholder = ident_url_placeholder();
-     
-    var newUrlVal = '';
-    if( action == 'new' ){
-        newUrlVal = 'new';
-    }else {
-        newUrlVal = $(el).data('page')
-    }
-    var regexMatch = new RegExp(urlPlaceholder+'$');
-    var newUrl = url.replace(regexMatch, newUrlVal);
-    */
     options = {
         type: "GET",
         enctype: 'multipart/form-data',
@@ -561,18 +340,6 @@ function playbook_page_action_clk(el, pbID, urlEditForm, urlNewPage, urlReloadPB
     xhr_data(urlEditForm, options, function(data, textStatus, jqxhr){
         // success Callback
         playpage_modal_add(data);//, pbID, urlNewPage, urlReloadPB);
-        // newModalEl = $('<div></div>').append(data);
-        // newModalEl = $(newModalEl).find('.modal');
-        // place_page(target, newModalEl);
-
-        // prevent submit
-        // $(newModalEl).on('click', '[type=submit]', function(event){
-        //     event.preventDefault();
-        //     playbook_page_modal_submit(event, this, pbID, urlNewPage, urlReloadPB);
-        //     return false;
-        // });
-        // // show modal
-        // $(target).children('.modal').modal('show');
     }, function(jqXHR, textStatus, errorThrown){
         // Fail Callback
         handle_fail_page_data(jqXHR, textStatus, errorThrown);
@@ -608,44 +375,6 @@ function playpage_edit_src_change(pressedButton){
     // add active class to
     $(pressedButton).addClass('active');
 }
-
-/** 
-function prepare_addpgae_modal(modal, pressedButton){
-    var pbID = $(pressedButton).data('pb')
-    var sectionID = $(pressedButton).data('section')
-    var form = $(modal).find( ident_form_add_page() )
-    var actionURL = url_add_page(pbID, sectionID);
-    form.attr('action', actionURL);
-    $(form).submit(function(event){
-        // TODO add loading animation
-        event.preventDefault();
-        // TODO Determine success or failure
-        $.post(actionURL, $(this).serialize(), function(res){
-            var new_page_id = res;
-            // add page to section
-            var curr_section = iden_pbnav_section(sectionID); 
-            var last_secpage = $(curr_section).find( ident_hook_pbnav_pbpage() ).last();
-            var new_page = $(last_secpage).clone();
-            var new_page_title = $(form).find( ident_form_addpage_title() ).val()
-            console.log(curr_section, last_secpage, new_page, new_page_title);
-            $(new_page).attr('data-page', new_page_id);
-            // TODO span is removed here, keep it
-            $(new_page).first('span').text(new_page_title);
-            $(curr_section).append(new_page)
-            // close modal
-            $(modal).modal('hide');
-            // reset form
-            $(form).trigger('reset');
-            // trigger click on the new page
-            $(new_page).trigger('click');
-            boo = $(new_page);
-            // Don't forget to hide the loading indicator!
-        });
-    
-        return false; // prevent default action
-    });
-}
-*/
 
 function animate_prefetch_container(hideShow){
     var pretchContainer = ident_prefetch_container();
@@ -684,34 +413,12 @@ function prefetch_url(apiEndpoint, changedInput){
         show_prefetch_data(data);        
     }, function(jqXHR, textStatus, errorThrown){
         // Fail Callback
-        //playpage_modal_add(jqXHR.responseText);//, pbID, urlNewPage, urlReloadPB);
         playpage_modal_update(jqXHR.responseText);
-        // console.log("Could not load page. Status: ",  textStatus)
-        // handle_fail_page_data(jqXHR, textStatus, errorThrown);
     }, function(dataOrJQXhr, textStatus, jqxhr){
         // Always Callback
         // show prefetch animation
         trigger_prefetch_animation(form, 'hide');
     });
-    
-    
-    
-    
-    // options = {
-    //     type: "GET",
-    //     processData: false,
-    //     contentType: false,
-    //     cache: false,
-    //     timeout: 600000,
-    // };
-    // xhr_data(url, options, function(data, textStatus, jqxhr){
-        
-    // }, function(jqXHR, textStatus, errorThrown){
-    //     // Fail Callback
-    //     console.log("Could not load page. Status: ",  textStatus)
-    //     handle_fail_page_data(jqXHR, textStatus, errorThrown);
-    // });
-    
 }
 
 function add_to_element_update_queue(updateElement){
@@ -790,15 +497,6 @@ function page_edit_update(updateElement){
             }
             
         }
-        // elementCopy = $(this).clone();
-        // // get rid of span elements
-        // $.each($(elementCopy).children(), function(idx){ 
-        //     if( $(this).is('span') ){
-        //         formContent += $(this).html(); 
-        //         $(this).remove(); 
-        //     }
-        // })
-        // formContent += $(elementCopy).html() + "\n\r";
     });
     // update form field
     $(targetFormField).val(formContent);
@@ -988,7 +686,6 @@ function prefetch_update_page_from_source(updateButton){
         handle_fail_page_data(jqXHR, textStatus, errorThrown);
     }, function(dataOrJQXhr, textStatus, jqxhr){
         // Always Callback
-        //$(statusElement).text(dataOrJQXhr);
     });
 }
 
@@ -1016,7 +713,6 @@ function update_page_from_source(updateButton){
         handle_fail_page_data(jqXHR, textStatus, errorThrown);
     }, function(dataOrJQXhr, textStatus, jqxhr){
         // Always Callback
-        //$(statusElement).text(dataOrJQXhr);
     });
 }
 
@@ -1262,13 +958,9 @@ $(document).ready(function(){
     var pageModal = ident_modal_edit_page()
     $(pageModal).on('click', '.submit-action', function(event){
         event.preventDefault();
-        //var urlNewPage = $(this).data('url-addpage');
-        //var urlReloadPB = $(this).data('url-reloadpb');
-        
-        //console.log("Submitting New Modal", "NewPageURL ", urlNewPage, "UrlReloadPage ", urlReloadPB);
         // disable button
         $(this).prop('disabled', true);
-        playbook_page_modal_submit(event, this);//, null, urlNewPage, urlReloadPB);
+        playbook_page_modal_submit(event, this);
         return false;
     });
     $(document).on('hide.bs.modal', function (event) {
@@ -1387,19 +1079,10 @@ function retrieveImageFromClipboardAsBase64(pasteEvent, callback, imageFormat){
 
 // PLAIN JS
 window.addEventListener("paste", function(e){
-    // textSource = document.getElementById("id_text_source");
     // Handle the event
     retrieveImageFromClipboardAsBase64(e, function(imageDataBase64){
-        // If there's an image, open it in the browser as a new window :)
         if(imageDataBase64){
-            // data:image/png;base64,iVBORw0KGgoAAAAN......
-            // imgTag = document.createElement("img");
-            // imgTag.src = imageDataBase64;
-            // foo = imageDataBase64;
             page_edit_insert_img(imageDataBase64);
-            //pbMain.prepend(imgTag);
-            //insertAtCursor(textSource, imgTag);
-            //window.open(imageDataBase64);
         }
     });
 }, false);

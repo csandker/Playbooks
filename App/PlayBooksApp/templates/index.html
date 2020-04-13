@@ -6,41 +6,13 @@
             <li class="nav-item clickable pb pb-clk" data-url="{% url 'playbook' playbook.id %}" data-pb="{{playbook.id}}"> {{playbook.name}} </li>
         {% endfor %}
     </ul>
-    <!--
-    {% for playbook in playbooks %}
-        <div id="pb-nav-{{playbook.id}}" class="pb-nav hidden" >
-            <ul class="nav-menu-items">
-                {% for section in playbook.sections.all %}
-                    <div class="pb-section" data-section={{section.id}}>
-                        <div class=pb-section-header>
-                            <span>{{section.name}}</span>
-                            <button type="button" class="btn btn-primary pb-page-add-clk" data-action="new" data-pb="{{playbook.id}}" data-section="{{section.id}}">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </div>
-                        {% for page in section.pages.all %}
-                            <li class="pbnav-pb-page" data-hook="pbnav-pb-page" data-pb="{{playbook.id}}" data-page="{{page.id}}">
-                                <span class="pb-page-clk">{{page.title}}</span>
-                                <button type="button" class="btn btn-dark pb-page-edit-clk" data-action="edit" data-page="{{page.id}}"" data-pb="{{playbook.id}}" data-section="{{section.id}}">
-                                    <i class="fas fa-ellipsis-h"></i>
-                                </button>
-                            </li>
-                        {% endfor %}
-                    </div>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endfor %}
-    -->
 {% endblock %}
 
 
 {% block main %}
-    <!--pboverview -->
     <div id="pb-overview" class="">
         <ul class="tile-listing">
             <li class="pb-tile tile-add tile">
-                
                 <form id="add-playbook" method="POST">
                     <div class="tile-main">
                         {% csrf_token %}
@@ -62,11 +34,6 @@
                         <input type="submit" class="btn btn-add" value="Add">
                     </div>
                 </form>
-                <!-- <i class="fas fa-plus fa-5x teal-text"></i>
-                <svg class="fas fa-plus fa-5x" width="3em" height="3em" viewBox="0 0 16 16" fill="red" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z" clip-rule="evenodd"/>
-                    <path fill-rule="evenodd" d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z" clip-rule="evenodd"/>
-                </svg> -->
             </li>
             {% for playbook in playbooks %}
                 <li class="pb-tile tile">
@@ -83,21 +50,4 @@
             {% endfor %}
         </ul>
     </div>
-    <!--pboverview-end -->
-    <!--pb-main -->
-    <!--
-    <div id="pb-main" class="hidden">
-        <div id="pbm-loading">Loading...</div>
-        <div data-hook="pbm-sec-container">
-            <span data-hook="pbm-sec-name" class="pbm-sec-name"></span>
-            <div data-hook="pbm-page-container" class="pbm-page-container">
-                <div class="pbm-page-header">
-                    <span data-hook="pbm-page-title" class="pbm-page page-title"></span>
-                    <span data-hook="pbm-page-last-update" class="last-update"></span>
-                </div>
-            </div>
-        </div>
-    </div>
-    -->
-    <!--pb-main-end -->
 {% endblock %}

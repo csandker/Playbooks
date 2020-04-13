@@ -19,8 +19,6 @@ class SourceResolver():
             return self.resolve_from_http(url=self.playpage.source)
         elif( source_type == Playpage.SOURCE_DISK ):
             return self.resolve_from_disk(self.playpage.included_folder.id, self.playpage.source)
-        # elif( source_type == Playpage.SOURCE_TEXT ):
-        #     return self.validate_text_source()
 
     def resolve_from_http(self, url=None):
         if( url ):
