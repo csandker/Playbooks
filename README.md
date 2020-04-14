@@ -20,10 +20,11 @@ PlayBooks not only provides an easily self hosted platform to create playbooks, 
 **Example Use Case:** You got an internal repo as knowledge base?<br>
 > Setup PlayBooks on a slim Webserver, add automated task to pull your knowledge base nightly, enable PlayBooks for read access to the local, cloned knowledge base, add articles from that knowledge to your playbooks, get informed and pull updates from the upstream repo whenever. 
 
+Examples and Screenshots can be found in [the Wiki](https://github.com/csandker/Playbooks/wiki)
 
 ## Installation & Setup
 
-Please see the Wiki for instruction how to setup Playbooks and get started.
+Please see [the Wiki](https://github.com/csandker/Playbooks/wiki) for instruction how to setup Playbooks and get started.
 
 ## Preview
 
