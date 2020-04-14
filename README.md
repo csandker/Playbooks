@@ -1,6 +1,6 @@
 # PlayBooks
 
-PlayBooks is a project i've created to ease the creation of knowledge playbooks for different scenarios.<br>
+PlayBooks is a project i've build to ease the creation of knowledge playbooks for different scenarios.<br>
 Create your own **Markdown** playbooks for whatever scenario you usually encounter, from development tasks to a full RedTeam rundown.<br>
 
 PlayBooks not only provides an easily self hosted platform to create playbooks, but builds on the idea of collaborative knowledge sharing and sourcing internal and external resources into your playbooks. You can write your own pages from scratch or add existing pages from the web, through file uploads or from system directories enabled for access.<br>
