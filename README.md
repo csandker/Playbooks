@@ -24,7 +24,7 @@ Examples and Screenshots can be found in [the Wiki](https://github.com/csandker/
 
 ## Installation & Setup
 
-Please see [the Wiki](https://github.com/csandker/Playbooks/wiki) for instruction how to setup Playbooks and get started.
+Please see [the Wiki](https://github.com/csandker/Playbooks/wiki/1.-Installation-&-Setup) for instruction how to setup Playbooks and get started.
 
 ## Preview
 
