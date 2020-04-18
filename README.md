@@ -40,4 +40,4 @@ Please see [the Wiki](https://github.com/csandker/Playbooks/wiki/1.-Installation
 ## Disclaimer
 
 Currently this project is published in debug mode to ease development.<br>
-See Wiki for Production use.
+See [Wiki](https://github.com/csandker/Playbooks/wiki/4.-Production-Use) for Production use.
