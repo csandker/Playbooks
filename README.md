@@ -4,7 +4,7 @@ PlayBooks is a project i've build to ease the creation of knowledge playbooks fo
 Create your own **Markdown** playbooks for whatever scenario you usually encounter, from development tasks to a full RedTeam rundown.<br>
 
 PlayBooks not only provides an easily self hosted platform to create playbooks, but builds on the idea of collaborative knowledge sharing and sourcing internal and external resources into your playbooks. You can write your own pages from scratch or add existing pages from the web, through file uploads or from system directories enabled for access.<br>
-**The kicker is:** If you include an existing page, e.g. from the amazing [Atmoic Red Team GitHub Repo](https://github.com/redcanaryco/atomic-red-team) you will be informed if the linked source has been updated and can pull the latest updates directly from the original source.
+**The kicker:** If you include an existing page, e.g. from the amazing [Atmoic Red Team GitHub Repo](https://github.com/redcanaryco/atomic-red-team) you will be informed if the linked source has been updated and can pull the latest updates directly from the original source.
 
 
 ## Features
