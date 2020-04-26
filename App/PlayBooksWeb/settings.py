@@ -24,7 +24,7 @@ SECRET_KEY = os.environ.get('PLAYBOOKS_SECRET_KEY', 'qe3x*y@pp1h_r#(rvqlc=-0l+y&
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False if os.environ.get('PLAYBOOKS_PRODUCTION') else True
 
 ALLOWED_HOSTS = ['*']
 
@@ -75,12 +75,13 @@ WSGI_APPLICATION = 'PlayBooksWeb.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+SQLite3_DB = {
+    'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': os.environ.get('PLAYBOOKS_SQLite3PATH', os.path.join(BASE_DIR, 'db.sqlite3')),
+}
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': SQLite3_DB
 }
 
 
@@ -111,7 +112,7 @@ LOGOUT_REDIRECT_URL = '/auth/login'
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'Europe/Berlin'
+TIME_ZONE = os.environ.get('PLAYBOOKS_TIMEZONE', 'Europe/Berlin')
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
@@ -121,6 +122,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT=os.path.join(BASE_DIR, 'static/')
 STATICFILES_DIRS = (
 
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
