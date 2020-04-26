@@ -24,7 +24,7 @@ SECRET_KEY = os.environ.get('PLAYBOOKS_SECRET_KEY', 'qe3x*y@pp1h_r#(rvqlc=-0l+y&
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False if os.environ.get('PLAYBOOKS_PRODUCTION') else True
 
 ALLOWED_HOSTS = ['*']
 
