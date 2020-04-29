@@ -41,11 +41,11 @@ RUN echo "Adding Admin user 'admin' with password: '${ADMINPASSWORD}'"
 RUN echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', '', '${ADMINPASSWORD}')" | python3 manage.py shell
 
 ## PlayBooks Settings
-RUN echo "{\n\
-    'SECRET_KEY': ${PLAYBOOKS_SECRET_KEY},\n\
-    'PROD_ENV': ${PLAYBOOKS_PRODUCTION},\n\
-    'ALLOWED_HOSTS': '*'\n\
-}" > ${PLAYBOOK_SETTINGS_JSON}
+RUN echo '{\n\
+    "SECRET_KEY": "${PLAYBOOKS_SECRET_KEY}",\n\
+    "PROD_ENV": "${PLAYBOOKS_PRODUCTION}",\n\
+    "ALLOWED_HOSTS": "*"\n\
+}' > ${PLAYBOOK_SETTINGS_JSON}
 
 ### Create User
 RUN useradd ${PLAYBOOKS_USER}

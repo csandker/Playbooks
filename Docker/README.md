@@ -22,7 +22,7 @@ git clone git@github.com:csandker/Playbooks.git
 cd Playbooks/Docker
 sudo docker build -t playbooks .
 ## If you  want the DB will inside the Docker container
-sudo docker run -it -p 8000:8000/tcp -v /tmp:/data playbooks
+sudo docker run -it -p 8000:8000/tcp playbooks
 ## If you specified a local path for your DB, make the DB available by using Volumes 
 ## Example: you specified '/data/playbooks.sqlite3' as your DB location, map /data to a local path by using docker Volumes (-v)
 ## In the example below your local /tmp dir will be mapped to the container's /data dir 
