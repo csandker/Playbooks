@@ -2,8 +2,11 @@ FROM ubuntu:20.04
 
 ## CUSTOM CONFIGURATION - PLEASE CHANGE
 ARG ADMINPASSWORD="ADMIN!!ChangeME"
-ENV PLAYBOOKS_SQLITE3_PATH="/opt/Playbooks/App/playbooks.sqlite3"
-ENV PLAYBOOKS_PRODUCTION=true
+## DEFAULT DB PATH INSIDE CONTAINER
+#ENV PLAYBOOKS_SQLITE3_PATH="/opt/Playbooks/App/playbooks.sqlite3"
+## UNCOMMENT FOR AN OUTSIDE DOCKER DB, NOTE: The '/data' path is inside Docker so you're good to leave it with /data (can be changd though)
+ENV PLAYBOOKS_SQLITE3_PATH="/data/playbooks.sqlite3"
+ENV PLAYBOOKS_PRODUCTION=1
 ENV PLAYBOOKS_TIMEZONE="Europe/Berlin"
 ENV PLAYBOOKS_SECRET_KEY="TFcnpdctBlH8V9c1UkUl"
 
@@ -34,18 +37,15 @@ WORKDIR $PLAYBOOKS_DIR
 RUN pip3 install -r requirements.txt
 RUN pip3 install gunicorn
 WORKDIR $PLAYBOOK_APP_DIR
-#RUN python3 manage.py makemigrations
-RUN python3 manage.py migrate
 RUN python3 manage.py collectstatic --noinput
-RUN echo "Adding Admin user 'admin' with password: '${ADMINPASSWORD}'"
-RUN echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', '', '${ADMINPASSWORD}')" | python3 manage.py shell
 
 ## PlayBooks Settings
-RUN echo '{\n\
-    "SECRET_KEY": "${PLAYBOOKS_SECRET_KEY}",\n\
-    "PROD_ENV": "${PLAYBOOKS_PRODUCTION}",\n\
-    "ALLOWED_HOSTS": "*"\n\
-}' > ${PLAYBOOK_SETTINGS_JSON}
+RUN echo "{\n\
+    \"SECRET_KEY\": \"${PLAYBOOKS_SECRET_KEY}\",\n\
+    \"PROD_ENV\": \"${PLAYBOOKS_PRODUCTION}\",\n\
+    \"SQLITE3_PATH\": \"${PLAYBOOKS_SQLITE3_PATH}\",\n\
+    \"ALLOWED_HOSTS\": \"*\"\n\
+}" > ${PLAYBOOK_SETTINGS_JSON}
 
 ### Create User
 RUN useradd ${PLAYBOOKS_USER}
@@ -57,7 +57,7 @@ RUN mkdir ${GUNICORN_LOG_DIR}
 RUN chown -R root:www-data ${GUNICORN_LOG_DIR}
 RUN chmod g+w ${GUNICORN_LOG_DIR}
 
-### System Usage - Skipped for Docker
+### SYSTEMD Usage - Skipped for Docker
 # RUN echo "[Unit]\n\
 # Description=gunicorn playbooks service\n\
 # After=network.target\n\
@@ -98,6 +98,13 @@ RUN ln -s /etc/nginx/sites-available/playbooks  /etc/nginx/sites-enabled/
 ### RUN SCRIPT
 RUN echo "#!/bin/sh\n\
 cd ${PLAYBOOK_APP_DIR}\n\
+echo 'Setting Up PlayBooks DB...' \n\
+#python3 manage.py makemigrations\n\
+python3 manage.py migrate\n\
+echo \"Adding Admin user 'admin' with password: '${ADMINPASSWORD}'\"\n\
+echo \"from django.contrib.auth import get_user_model; User = get_user_model(); print('Admin user already exists. Moving on...') if User.objects.filter(username='admin').count()>0 else User.objects.create_superuser('admin', '', '${ADMINPASSWORD}')\" | python3 manage.py shell\n\
+echo 'Adding Write Acces for everyone to ${PLAYBOOKS_SQLITE3_PATH}'\n\
+chmod o+w ${PLAYBOOKS_SQLITE3_PATH}\n\
 echo 'Starting nginx...'\n\
 /etc/init.d/nginx restart\n\
 echo 'Starting gunicorn as user ${PLAYBOOKS_USER}...'\n\
