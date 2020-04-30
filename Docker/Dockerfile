@@ -32,7 +32,7 @@ RUN apt-get install -y sudo systemd software-properties-common lsb-release nginx
 
 ### Download and install PlayBooks
 WORKDIR $INSTALL_DIR  
-RUN git clone https://github.com/csandker/Playbooks.git
+RUN git clone -b Dockerise https://github.com/csandker/Playbooks.git
 WORKDIR $PLAYBOOKS_DIR
 RUN pip3 install -r requirements.txt
 RUN pip3 install gunicorn

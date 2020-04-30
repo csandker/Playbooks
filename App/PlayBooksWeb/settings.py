@@ -29,16 +29,15 @@ except:
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = settings['SECRET_KEY'] if 'SECRET_KEY' in settings else "qe3x*y@pp1h_r#(rvqlc=-0l+y&l5^u%jw&*p_13wb4=z!6))m"
-#SECRET_KEY = os.environ.get('PLAYBOOKS_SECRET_KEY', 'qe3x*y@pp1h_r#(rvqlc=-0l+y&l5^u%jw&*p_13wb4=z!6))m')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = settings['PROD_ENV'] if 'PROD_ENV' in settings else True
-#DEBUG = False if os.environ.get('PLAYBOOKS_PRODUCTION') else True
+if( 'PROD_ENV' in settings and settings['PROD_ENV']  ):
+    DEBUG = False
+else:
+    DEBUG = True
 
-ALLOWED_HOSTS = settings['ALLOWED_HOSTS'] if 'ALLOWED_HOSTS' in settings else "*"
-#ALLOWED_HOSTS = ['*']
-
+ALLOWED_HOSTS = settings['ALLOWED_HOSTS'] if 'ALLOWED_HOSTS' in settings else ['*']
 
 # Application definition
 
@@ -91,7 +90,6 @@ SQLite3_DB = {
     'ENGINE': 'django.db.backends.sqlite3',
     'NAME': SQLITE3_PATH
 }
-#os.environ.get('PLAYBOOKS_SQLite3PATH', os.path.join(BASE_DIR, 'db.sqlite3'))
 
 DATABASES = {
     'default': SQLite3_DB

@@ -3,5 +3,5 @@
     
     "PROD_ENV": 0,
 
-    "ALLOWED_HOSTS": "*"
+    "ALLOWED_HOSTS": "['*']"
 }
