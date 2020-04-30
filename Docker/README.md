@@ -33,7 +33,6 @@ If you want to have your database outside the docker container (which makes sens
 ```shell
 git clone https://github.com/csandker/Playbooks.git
 cd Playbooks/Docker
-## Check out the Dockerfile, for configurable settings e.g. the SECRET KEY or PRODUCTION deployment (relevant for error messages)
 nano Dockerfile ## change "PLAYBOOKS_SQLITE3_PATH" and other keys such as "PLAYBOOKS_PRODUCTION", "PLAYBOOKS_SECRET_KEY", ...
 sudo docker build -t playbooks .
 ## Example: you specified '/data/playbooks.sqlite3' as your DB location, map /data to a local path by using docker Volumes (-v)
