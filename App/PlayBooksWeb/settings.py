@@ -11,23 +11,33 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+## settings
+try:
+    fh = open(os.path.join(BASE_DIR, 'settings.json'), 'r')
+    settings = json.load(fh)
+    fh.close()
+except:
+    settings = {}
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('PLAYBOOKS_SECRET_KEY', 'qe3x*y@pp1h_r#(rvqlc=-0l+y&l5^u%jw&*p_13wb4=z!6))m')
+SECRET_KEY = settings['SECRET_KEY'] if 'SECRET_KEY' in settings else "qe3x*y@pp1h_r#(rvqlc=-0l+y&l5^u%jw&*p_13wb4=z!6))m"
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False if os.environ.get('PLAYBOOKS_PRODUCTION') else True
+if( 'PROD_ENV' in settings and settings['PROD_ENV']  ):
+    DEBUG = False
+else:
+    DEBUG = True
 
-ALLOWED_HOSTS = ['*']
-
+ALLOWED_HOSTS = settings['ALLOWED_HOSTS'] if 'ALLOWED_HOSTS' in settings else ['*']
 
 # Application definition
 
@@ -75,9 +85,10 @@ WSGI_APPLICATION = 'PlayBooksWeb.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+SQLITE3_PATH = settings['SQLITE3_PATH'] if 'SQLITE3_PATH' in settings else os.path.join(BASE_DIR, 'db.sqlite3')
 SQLite3_DB = {
     'ENGINE': 'django.db.backends.sqlite3',
-    'NAME': os.environ.get('PLAYBOOKS_SQLite3PATH', os.path.join(BASE_DIR, 'db.sqlite3')),
+    'NAME': SQLITE3_PATH
 }
 
 DATABASES = {
