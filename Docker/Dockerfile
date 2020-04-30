@@ -3,9 +3,9 @@ FROM ubuntu:20.04
 ## CUSTOM CONFIGURATION - PLEASE CHANGE
 ARG ADMINPASSWORD="ADMIN!!ChangeME"
 ## DEFAULT DB PATH INSIDE CONTAINER
-#ENV PLAYBOOKS_SQLITE3_PATH="/opt/Playbooks/App/playbooks.sqlite3"
+ENV PLAYBOOKS_SQLITE3_PATH="/opt/Playbooks/App/playbooks.sqlite3"
 ## UNCOMMENT FOR AN OUTSIDE DOCKER DB, NOTE: The '/data' path is inside Docker so you're good to leave it with /data (can be changd though)
-ENV PLAYBOOKS_SQLITE3_PATH="/data/playbooks.sqlite3"
+#ENV PLAYBOOKS_SQLITE3_PATH="/data/playbooks.sqlite3"
 ENV PLAYBOOKS_PRODUCTION=1
 ENV PLAYBOOKS_TIMEZONE="Europe/Berlin"
 ENV PLAYBOOKS_SECRET_KEY="TFcnpdctBlH8V9c1UkUl"
@@ -32,7 +32,7 @@ RUN apt-get install -y sudo systemd software-properties-common lsb-release nginx
 
 ### Download and install PlayBooks
 WORKDIR $INSTALL_DIR  
-RUN git clone -b Dockerise https://github.com/csandker/Playbooks.git
+RUN git clone https://github.com/csandker/Playbooks.git
 WORKDIR $PLAYBOOKS_DIR
 RUN pip3 install -r requirements.txt
 RUN pip3 install gunicorn
